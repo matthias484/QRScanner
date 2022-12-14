@@ -14,9 +14,7 @@ import java.nio.ByteBuffer
 class QrCodeAnalyzer(
     private val onQrCodeScanned: (String) -> Unit
 ): ImageAnalysis.Analyzer {
-    companion object {
-        val reader = MultiFormatReader()
-    }
+
     private val supportedImageFormats = listOf(
         ImageFormat.YUV_420_888,
         ImageFormat.YUV_422_888,
@@ -37,9 +35,10 @@ class QrCodeAnalyzer(
                 false
             )
             val binaryBmp = BinaryBitmap(HybridBinarizer(source))
-            val result: Result
+
             try{
-                val result = reader.apply{
+
+                val result = MultiFormatReader().apply{
                     setHints(
                         mapOf(
                             DecodeHintType.POSSIBLE_FORMATS to arrayListOf(
